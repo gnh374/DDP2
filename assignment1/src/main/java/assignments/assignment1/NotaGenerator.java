@@ -22,7 +22,7 @@ public class NotaGenerator {
             //looping berhenti
             if (pilihan.equals("0")){
                 System.out.println("Terima kasih telah menggunakan NotaGenerator!");
-                programJalan=false;
+                programJalan = false;
 
             //menjalankan method generateId
             }
@@ -65,7 +65,7 @@ public class NotaGenerator {
                     }
                     //jika input paket belum valid
                     else{
-                        System.out.printf("Paket %s tidak diketahui\n",paket);
+                        System.out.printf("Paket %s tidak diketahui\n", paket);
                         System.out.println("[ketik ? untuk mencari tahu jenis paket]");
                         System.out.println("Masukkan paket laundry: ");
                         paket = input.nextLine();
@@ -99,7 +99,7 @@ public class NotaGenerator {
                 //jika berat kurang dari 2 kg, berat dianggap 2 kg
                 if (berat<2){
                     System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
-                    berat=2;
+                    berat = 2;
                 }
                 System.out.println("Nota Laundry");
                 // memanggil method generateNota dan mengeprint returnntya
@@ -131,7 +131,7 @@ public class NotaGenerator {
 
     public static String generateId(String nama, String nomorHP){
         //mengambil kata pertama dari input nama user
-        if (nama.indexOf(" ")!=-1){
+        if (nama.indexOf(" ") != -1){
             int index =nama.indexOf(" ");
             nama = nama.substring(0, index);
         }
@@ -142,72 +142,72 @@ public class NotaGenerator {
         do {
             cekNomor = 1;
             //mengiterasi setiap digit pada nomor HP untuk memastikan bahwa semuanya angka
-            for (int i =0; i<nomorHP.length();i++){ 
+            for (int i = 0; i < nomorHP.length(); i++){ 
                 if (!(Character.isDigit(nomorHP.charAt(i)))){
                     System.out.println("Nomor hp hanya menerima digit");
                     String nomorHandphoneBaru = input.next();
                     input.nextLine();
-                    nomorHP=nomorHandphoneBaru;
-                    cekNomor=0;
+                    nomorHP = nomorHandphoneBaru;
+                    cekNomor = 0;
                     break;
                 }
             }
-        } while (cekNomor==0);
+        } while (cekNomor == 0);
 
         String id = namaUppercase+"-"+nomorHP;
         //menghitung chceckSum
-        int checkSum=0;
-        for (int i=0;i<id.length();i++){
+        int checkSum = 0;
+        for (int i = 0; i < id.length(); i++){
             //mengambil ascii dari setiap char
             int ascii = id.charAt(i);
             //untuk A-Z
-            if (ascii>=65 && ascii<=90){
-                checkSum+=ascii-64;
+            if (ascii >= 65 && ascii <= 90){
+                checkSum += ascii - 64;
             //untuk 0-9   
             }
-            else if(ascii>=48 && ascii<=57){
-                checkSum+=ascii-48;
+            else if(ascii >= 48 && ascii <= 57){
+                checkSum += ascii - 48;
             //untuk lainnya  
             }
             else{
-                checkSum+=7;
+                checkSum += 7;
             }
         
     }
     //merubah integer checksum menjadi string dan menambahkan 0 jika hanya 1 digit
     String checkSumFinal = Integer.toString(checkSum);
-        if (checkSumFinal.length()==1){
-            checkSumFinal="0"+checkSumFinal;
+        if (checkSumFinal.length() == 1){
+            checkSumFinal = "0" + checkSumFinal;
         }
     //menggabungkan id sebelumnya dengan check sum
-    id = id+"-"+checkSumFinal;
+    id = id + "-" + checkSumFinal;
     
     return id;
 }
     public static String generateNota(String id, String paket, int berat, String tanggalTerima){
-        int lamaWaktu=0;
-        long harga=0;
+        int lamaWaktu = 0;
+        long harga = 0;
         //mengubah paket menjadi huruf kecil semua
-        String paketLower=paket.toLowerCase();
+        String paketLower = paket.toLowerCase();
 
         //mengassign value lamaWaktu dan harga sesuai paket
         if (paketLower.equals("express")){
-            lamaWaktu=1;
-            harga=12000; 
+            lamaWaktu = 1;
+            harga = 12000; 
         }
         else if(paketLower.equals("fast")){
-            lamaWaktu=2;
-            harga=10000;
+            lamaWaktu = 2;
+            harga = 10000;
         }
         else if (paketLower.equals("reguler")){
-            lamaWaktu=3;
-            harga=7000;
+            lamaWaktu = 3;
+            harga = 7000;
         }
 
         //menghitung total harga
-        long totalHarga = harga*berat;
+        long totalHarga = harga * berat;
         //memanggil method hitung tanggal untuk menentukan tanggal selesai
-        String tanggalSelesai=hitungTanggal(tanggalTerima, lamaWaktu);
+        String tanggalSelesai = hitungTanggal(tanggalTerima, lamaWaktu);
 
         String output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
         
@@ -218,11 +218,11 @@ public class NotaGenerator {
         //membuat custom pattern
         DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         //membuat instance tanggal terima dari input tanggal user dengan format sesuai formatTanggal
-        LocalDate tanggalTerima = LocalDate.parse(tanggal,formatTanggal);
+        LocalDate tanggalTerima = LocalDate.parse(tanggal, formatTanggal);
         //menghitung tanggal selesai
         LocalDate tanggalSelesai = tanggalTerima.plusDays(lamaWaktu);
         //memformat tanggalSelelsai dengan formatTanggal
-        String form= tanggalSelesai.format(formatTanggal);
+        String form = tanggalSelesai.format(formatTanggal);
         return form;
     }
 
