@@ -145,8 +145,7 @@ public class NotaGenerator {
             for (int i = 0; i < nomorHP.length(); i++){ 
                 if (!(Character.isDigit(nomorHP.charAt(i)))){
                     System.out.println("Nomor hp hanya menerima digit");
-                    String nomorHandphoneBaru = input.next();
-                    input.nextLine();
+                    String nomorHandphoneBaru = input.nextLine();
                     nomorHP = nomorHandphoneBaru;
                     cekNomor = 0;
                     break;
