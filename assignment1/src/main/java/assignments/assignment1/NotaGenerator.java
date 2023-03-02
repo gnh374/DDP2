@@ -30,9 +30,22 @@ public class NotaGenerator {
                 System.out.println("Masukkan nama Anda:");
                 //meminta input nama
                 String nama = input.nextLine();
+                //memvalidasi jika nama dikosongkan
+                while (nama.length()==0){
+                    System.out.println("Nama tidak boleh kosong");
+                    System.out.println("Masukkan nama Anda:");
+                    nama = input.nextLine();
+                }
                 System.out.println("Masukkan nomor handphone Anda:");
                 //meminta input nomor HP
                 String nomorHandphone = input.nextLine();
+                //memvalidasi jika nomor Handphone dikosongkan
+                while (nomorHandphone.length()==0){
+                    System.out.println("Nomor hp hanya menerima digit");
+                    System.out.println("Masukkan nomor handphone Anda:");
+                    nomorHandphone = input.nextLine();
+                }
+                
 
                 //memanggil method generateId dan mengeprint id pelanggan
                 System.out.printf("ID ANDA: %s\n",generateId(nama, nomorHandphone));
@@ -42,9 +55,21 @@ public class NotaGenerator {
                 System.out.println("Masukkan nama Anda:");
                 //meminta input nama
                 String nama = input.nextLine();
+                //memvalidasi jika nama dikosongkan
+                while (nama.length()==0){
+                    System.out.println("Nama tidak boleh kosong");
+                    System.out.println("Masukkan nama Anda:");
+                    nama = input.nextLine();
+                }
                 System.out.println("Masukkan nomor handphone Anda:");
                 //meminta input nomorHp
                 String nomorHandphone = input.nextLine();
+                //memvalidasi jika nomor Handphone dikosongkan
+                while (nomorHandphone.length()==0){
+                    System.out.println("Nomor hp hanya menerima digit");
+                    System.out.println("Masukkan nomor handphone Anda:");
+                    nomorHandphone = input.nextLine();
+                }
 
                 //memanggil method generateId untuk membuat ID pelanggan
                 String id = generateId(nama, nomorHandphone);
@@ -175,8 +200,11 @@ public class NotaGenerator {
     }
     //merubah integer checksum menjadi string dan menambahkan 0 jika hanya 1 digit
     String checkSumFinal = Integer.toString(checkSum);
-        if (checkSumFinal.length() == 1){
+        if (checkSumFinal.length() < 2){
             checkSumFinal = "0" + checkSumFinal;
+        }
+        else if (checkSumFinal.length() > 2){
+            checkSumFinal = checkSumFinal.substring(checkSumFinal.length()-2, checkSumFinal.length());
         }
     //menggabungkan id sebelumnya dengan check sum
     id = id + "-" + checkSumFinal;
