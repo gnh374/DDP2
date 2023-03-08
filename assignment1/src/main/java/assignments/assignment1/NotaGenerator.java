@@ -71,6 +71,23 @@ public class NotaGenerator {
                     nomorHandphone = input.nextLine();
                 }
 
+                 //memvalidasi nomor hp yang dimasukkan user
+                int cekNomor;
+                do {
+                    cekNomor = 1;
+                    //mengiterasi setiap digit pada nomor HP untuk memastikan bahwa semuanya angka
+                    for (int i = 0; i < nomorHandphone.length(); i++){ 
+                        if (!(Character.isDigit(nomorHandphone.charAt(i)))){
+                            System.out.println("Nomor hp hanya menerima digit");
+                            String nomorHandphoneBaru = input.nextLine();
+                            nomorHandphone = nomorHandphoneBaru;
+                            cekNomor = 0;
+                            break;
+                        }
+                    }
+                } while (cekNomor == 0);
+
+
                 //memanggil method generateId untuk membuat ID pelanggan
                 String id = generateId(nama, nomorHandphone);
                 System.out.print("Masukkan tanggal terima: \n");
@@ -87,6 +104,12 @@ public class NotaGenerator {
                     //jika input paket sudah valid looping akan berhenti
                     if (paketLower.equals("express") || paketLower.equals("fast") || paketLower.equals("reguler")){
                         break;
+                    }
+                    else if (paketLower.equals("?")){
+                        showPaket();
+                        System.out.println("Masukkan paket laundry: ");
+                        paket = input.nextLine();
+                        paketLower = paket.toLowerCase();
                     }
                     //jika input paket belum valid
                     else{
@@ -113,7 +136,13 @@ public class NotaGenerator {
                     //mengecek apakah berat yang dimasukkan adalah integer, jika iya looping berhenti
                     try{
                             berat = Integer.parseInt(stringBerat);
-                            break;
+                            if (berat <= 0){
+                                System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
+                                stringBerat = input.nextLine();
+                            }
+                            else{
+                                break;
+                            }
                     }
                     //jika bukan integer minta input ulang
                     catch (NumberFormatException exception){
@@ -121,8 +150,10 @@ public class NotaGenerator {
                         stringBerat = input.nextLine();
                         }
                 }
+
+      
                 //jika berat kurang dari 2 kg, berat dianggap 2 kg
-                if (berat<2){
+                if (berat < 2){
                     System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                     berat = 2;
                 }
@@ -146,7 +177,7 @@ public class NotaGenerator {
         System.out.println("[0] Exit");
     }
     // method untuk mengeprin paket yang tersedia
-    private static void showPaket() {
+    public static void showPaket() {
         System.out.println("+-------------Paket-------------+");
         System.out.println("| Express | 1 Hari | 12000 / Kg |");
         System.out.println("| Fast    | 2 Hari | 10000 / Kg |");
@@ -162,22 +193,6 @@ public class NotaGenerator {
         }
         // mengubah nama menjadi hurus kapital semua
         String namaUppercase = nama.toUpperCase();
-        //memvalidasi nomor hp yang dimasukkan user
-        int cekNomor;
-        do {
-            cekNomor = 1;
-            //mengiterasi setiap digit pada nomor HP untuk memastikan bahwa semuanya angka
-            for (int i = 0; i < nomorHP.length(); i++){ 
-                if (!(Character.isDigit(nomorHP.charAt(i)))){
-                    System.out.println("Nomor hp hanya menerima digit");
-                    String nomorHandphoneBaru = input.nextLine();
-                    nomorHP = nomorHandphoneBaru;
-                    cekNomor = 0;
-                    break;
-                }
-            }
-        } while (cekNomor == 0);
-
         String id = namaUppercase+"-"+nomorHP;
         //menghitung chceckSum
         int checkSum = 0;
@@ -211,12 +226,25 @@ public class NotaGenerator {
     
     return id;
 }
-    public static String generateNota(String id, String paket, int berat, String tanggalTerima){
+    public static int jumlahHariPengerjaan(String paket){
+        int lamaWaktu = 0;
+        if (paket.equals("express")){
+            lamaWaktu = 1;
+        }
+        else if(paket.equals("fast")){
+            lamaWaktu = 2;
+        }
+        else if (paket.equals("reguler")){
+            lamaWaktu = 3;
+        }
+
+        return lamaWaktu;
+    }
+    public static String generateNota(String id, String paket, int berat, String tanggalTerima, int diskon){
         int lamaWaktu = 0;
         long harga = 0;
         //mengubah paket menjadi huruf kecil semua
         String paketLower = paket.toLowerCase();
-
         //mengassign value lamaWaktu dan harga sesuai paket
         if (paketLower.equals("express")){
             lamaWaktu = 1;
@@ -231,12 +259,22 @@ public class NotaGenerator {
             harga = 7000;
         }
 
-        //menghitung total harga
-        long totalHarga = harga * berat;
         //memanggil method hitung tanggal untuk menentukan tanggal selesai
         String tanggalSelesai = hitungTanggal(tanggalTerima, lamaWaktu);
-
-        String output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
+        long totalHarga=0;
+        String output;
+        //menghitung total harga
+        if (diskon == 3){
+            totalHarga = harga * berat * 1/2;
+            output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "(Discount member 50%!!!)" + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
+        }
+        else{
+            totalHarga = harga * berat;
+            output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
+        }
+        
+        
+       
         
         return output;
     }
