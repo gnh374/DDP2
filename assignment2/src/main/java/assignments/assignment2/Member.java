@@ -22,12 +22,7 @@ public class Member {
     }
 
     public void setBonusCounter(){
-        if (this.bonusCounter == 3){
-            this.bonusCounter = 0;
-        }
-        else {
-            this.bonusCounter += 1;
-        }
+        this.bonusCounter+=1;
     }
 
     public int getBonusCounter(){

@@ -99,6 +99,8 @@ public class NotaGenerator {
                 //mengubah input menjadi huruf kecil semua
                 String paketLower = paket.toLowerCase();
                 //looping untuk meminta input terus sampai input paket yang dimasukkan valid
+                int diskon = input.nextInt();
+                input.nextLine();
                 Boolean jalan = true;
                 while(jalan){
                     //jika input paket sudah valid looping akan berhenti
@@ -159,7 +161,7 @@ public class NotaGenerator {
                 }
                 System.out.println("Nota Laundry");
                 // memanggil method generateNota dan mengeprint returnntya
-                System.out.println(generateNota(id, paket, berat, tanggal)); 
+                System.out.println(generateNota(id, paket, berat, tanggal,diskon)); 
                 
             }
             //jika user memasukkan perintah yang lain
@@ -262,11 +264,13 @@ public class NotaGenerator {
         //memanggil method hitung tanggal untuk menentukan tanggal selesai
         String tanggalSelesai = hitungTanggal(tanggalTerima, lamaWaktu);
         long totalHarga=0;
+        long setelahDiskon=0;
         String output;
         //menghitung total harga
-        if (diskon == 3){
-            totalHarga = harga * berat * 1/2;
-            output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "(Discount member 50%!!!)" + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
+        if (diskon % 3 ==0){
+            totalHarga = harga * berat;
+            setelahDiskon = totalHarga* 1/2;
+            output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + " = " + setelahDiskon + " (Discount member 50%!!!)" + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
         }
         else{
             totalHarga = harga * berat;
