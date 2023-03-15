@@ -242,6 +242,7 @@ public class NotaGenerator {
 
         return lamaWaktu;
     }
+    
     public static String generateNota(String id, String paket, int berat, String tanggalTerima, int diskon){
         int lamaWaktu = 0;
         long harga = 0;
@@ -263,11 +264,11 @@ public class NotaGenerator {
 
         //memanggil method hitung tanggal untuk menentukan tanggal selesai
         String tanggalSelesai = hitungTanggal(tanggalTerima, lamaWaktu);
-        long totalHarga=0;
-        long setelahDiskon=0;
+        long totalHarga = 0;
+        long setelahDiskon = 0;
         String output;
         //menghitung total harga
-        if (diskon % 3 ==0){
+        if (diskon == 3){
             totalHarga = harga * berat;
             setelahDiskon = totalHarga* 1/2;
             output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + " = " + setelahDiskon + " (Discount member 50%!!!)" + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;

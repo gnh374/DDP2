@@ -102,10 +102,7 @@ public class MainMenu {
         if (idList.indexOf(idMember) != -1){
             //akses objek member bersangkutan dari array list
             Member member = memberList.get(idList.indexOf(idMember));
-            //tambahkan bonus couter
-            member.setBonusCounter();
-            //ambil jumlah bonus counter
-            diskon = member.getBonusCounter();
+
             System.out.print("Masukkan paket laundry: \n");
             //meminta input paket laundry yang diinginkan
             String paket = input.nextLine();
@@ -169,6 +166,10 @@ public class MainMenu {
                 System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                 berat = 2;
             }
+            //tambahkan bonus couter
+            member.setBonusCounter(member.getBonusCounter()+1);
+            //ambil jumlah bonus counter
+            diskon = member.getBonusCounter();
 
             //menyimpan tanggal dari calender, men=mformat lalu simpan ke variabel tanggal masuk
             String tanggalMasuk = fmt.format(cal.getTime());
@@ -180,6 +181,11 @@ public class MainMenu {
             notaList.add(nota);
             //print nota dengan memanggil method generateNota
             System.out.println(NotaGenerator.generateNota(idMember, paket, berat, tanggalMasuk,diskon));
+            //reset bonus counter jika sudah kelipatan 3 dan sudah mendapat diskon
+            if (diskon == 3){
+                member.setBonusCounter(0);
+                System.out.println("diskon =0");
+            }
             //jika nota belum siap
             if (!nota.getIsReady()){
                 System.out.println("Status      	: Belum bisa diambil :(");
