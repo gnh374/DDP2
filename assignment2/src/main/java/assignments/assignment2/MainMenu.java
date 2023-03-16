@@ -266,16 +266,16 @@ public class MainMenu {
             //jika sudah siap, hapus nota
             if (nota.getIsReady()){
                 notaList.remove(nota);
-                System.out.printf("Nota dengan ID %d berhasil diambil!\n", idNotaInt);
+                System.out.printf("Nota dengan ID %s berhasil diambil!\n", idNota);
             }
             //jika belum siap
             else{
-                System.out.printf("Nota dengan ID %d gagal diambil!\n", idNotaInt);
+                System.out.printf("Nota dengan ID %s gagal diambil!\n", idNota);
             }
         }
         //jika nota dengan id tersebut tidak ada
         else{
-            System.out.printf("Nota dengan ID %d tidak ditemukan!\n", idNotaInt);
+            System.out.printf("Nota dengan ID %s tidak ditemukan!\n", idNota);
         }
     }
     
