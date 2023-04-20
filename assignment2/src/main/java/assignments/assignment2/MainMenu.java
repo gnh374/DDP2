@@ -184,7 +184,6 @@ public class MainMenu {
             //reset bonus counter jika sudah kelipatan 3 dan sudah mendapat diskon
             if (diskon == 3){
                 member.setBonusCounter(0);
-                System.out.println("diskon =0");
             }
             //jika nota belum siap
             if (!nota.getIsReady()){
