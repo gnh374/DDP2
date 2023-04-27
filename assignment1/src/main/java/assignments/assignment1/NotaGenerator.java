@@ -161,7 +161,7 @@ public class NotaGenerator {
                 }
                 System.out.println("Nota Laundry");
                 // memanggil method generateNota dan mengeprint returnntya
-                System.out.println(generateNota(id, paket, berat, tanggal,diskon)); 
+                System.out.println(generateNota(id, paket, berat, tanggal)); 
                 
             }
             //jika user memasukkan perintah yang lain
@@ -242,8 +242,28 @@ public class NotaGenerator {
 
         return lamaWaktu;
     }
-    
-    public static String generateNota(String id, String paket, int berat, String tanggalTerima, int diskon){
+    public static long hitungHarga(String paket, int berat){
+        int lamaWaktu = 0;
+        long harga = 0;
+        //mengubah paket menjadi huruf kecil semua
+        String paketLower = paket.toLowerCase();
+        //mengassign value lamaWaktu dan harga sesuai paket
+        if (paketLower.equals("express")){
+            lamaWaktu = 1;
+            harga = 12000; 
+        }
+        else if(paketLower.equals("fast")){
+            lamaWaktu = 2;
+            harga = 10000;
+        }
+        else if (paketLower.equals("reguler")){
+            lamaWaktu = 3;
+            harga = 7000;
+        }
+        long totalHarga = harga * berat;
+        return totalHarga ;
+    }
+    public static String generateNota(String id, String paket, int berat, String tanggalTerima){
         int lamaWaktu = 0;
         long harga = 0;
         //mengubah paket menjadi huruf kecil semua
@@ -265,19 +285,12 @@ public class NotaGenerator {
         //memanggil method hitung tanggal untuk menentukan tanggal selesai
         String tanggalSelesai = hitungTanggal(tanggalTerima, lamaWaktu);
         long totalHarga = 0;
-        long setelahDiskon = 0;
         String output;
         //menghitung total harga
-        if (diskon == 3){
-            totalHarga = harga * berat;
-            setelahDiskon = totalHarga* 1/2;
-            output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + " = " + setelahDiskon + " (Discount member 50%!!!)" + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
-        }
-        else{
-            totalHarga = harga * berat;
-            output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
-        }
+        totalHarga = harga * berat;
+        output ="ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + harga + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
         
+    
         
        
         

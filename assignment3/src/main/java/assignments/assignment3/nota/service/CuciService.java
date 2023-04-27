@@ -1,21 +1,24 @@
 package assignments.assignment3.nota.service;
 
 public class CuciService implements LaundryService{
+    int sudahCuci;
     @Override
     public String doWork() {
-        // TODO
-        return "";
+        this.sudahCuci++;
+        return "Sedang mencuci...";
     }
 
     @Override
     public boolean isDone() {
-        // TODO
+        if (this.sudahCuci>0){
+            return true;
+        }
         return false;
     }
 
     @Override
     public long getHarga(int berat) {
-        // TODO
+
         return 0;
     }
 

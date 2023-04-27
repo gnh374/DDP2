@@ -92,7 +92,7 @@ public class MainMenu {
                 }
 
     }
-
+    
     private static void handleGenerateNota() {
         System.out.println("Masukan ID member: ");
         //meminta input id member
@@ -180,7 +180,7 @@ public class MainMenu {
             //tambahkan ke array list nota
             notaList.add(nota);
             //print nota dengan memanggil method generateNota
-            System.out.println(NotaGenerator.generateNota(idMember, paket, berat, tanggalMasuk,diskon));
+            System.out.println(NotaGenerator.generateNota(idMember, paket, berat, tanggalMasuk));
             //reset bonus counter jika sudah kelipatan 3 dan sudah mendapat diskon
             if (diskon == 3){
                 member.setBonusCounter(0);
