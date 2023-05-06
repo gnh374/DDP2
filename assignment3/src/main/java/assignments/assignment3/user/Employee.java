@@ -14,10 +14,12 @@ public class Employee extends Member {
      * @param nama -> Nama lengkap dari employee
      */
     private static String generateId(String nama) {
+        //jika dalam nama ada spasi ambil kata pertama
         if (nama.indexOf(" ") != -1){
             int index = nama.indexOf(" ");
             nama = nama.substring(0, index);
         }
+        //membuat id
         String id = nama.toUpperCase() + "-" + employeeCount++;
         return id;
     }

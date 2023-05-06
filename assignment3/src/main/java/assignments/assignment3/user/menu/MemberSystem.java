@@ -20,9 +20,12 @@ public class MemberSystem extends SystemCLI {
     
     protected boolean processChoice(int choice) {
         boolean logout = false;
+        //jika memilih ingin laundry
         if (choice ==1){
             System.out.println("Masukan paket laundry: ");
+            //menampilkan paket dan harga
             NotaGenerator.showPaket();
+            //meminta input pake yg diinginkan
             String paket = in.nextLine();
             String paketLower = paket.toLowerCase();
             //looping untuk meminta input terus sampai input paket yang dimasukkan valid
@@ -84,45 +87,47 @@ public class MemberSystem extends SystemCLI {
                 berat = 2;
             }
             String tanggalMasuk = fmt.format(cal.getTime());
-            Nota nota = new Nota(loginMember, berat, paket, tanggalMasuk);
-            System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\nHanya tambah 1000 / kg\n[Ketik x untuk tidak mau]: ");
+            Nota nota = new Nota(loginMember, berat, paket, tanggalMasuk );
+            System.out.print("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\nHanya tambah 1000 / kg\n[Ketik x untuk tidak mau]: ");
             String mauSetrika = in.nextLine();
+            //jika ingin disterika
             if (!mauSetrika.equals("x")){
+                //membuat objek service setrika
                 SetrikaService setrika = new SetrikaService();
+                //menambahkan ke list service
                 nota.addService(setrika);
             }
-            System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\nCuma 2000 / 4kg, kemudian 500 / kg\n[Ketik x untuk tidak mau]: ");
+            System.out.print("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\nCuma 2000 / 4kg, kemudian 500 / kg\n[Ketik x untuk tidak mau]: ");
             String mauAntar = in.nextLine();
+            //jika mau diantar
             if (!mauAntar.equals("x")){
+                //membuat objek service antar
                 AntarService antar = new AntarService();
+                //menambahkan ke list service
                 nota.addService(antar);
             }
+            //menambahkan nota ke list nota
             NotaManager.addNota(nota);
+            loginMember.addNota(nota);
             nota.calculateHarga();
             System.out.println("Nota berhasil dibuat!");
        
         }
         else if (choice ==2){
+            //list semua nota
             Nota [] arrayNota = NotaManager.notaList;
             for (int i = 0; i < arrayNota.length; i++){
+                //id member yang sedang login
                 String idMember = loginMember.getId();
+                //jika id member yang sedang login sesuai dengan id member yang memiliki nota
                 if (idMember.equals(arrayNota[i].getMember().getId())){
                     System.out.println(arrayNota[i]);
-                    for (LaundryService service: arrayNota[i].getServices()){
-                        System.out.printf("- %s @ Rp.%d\n", service.getServiceName(), service.getHarga(arrayNota[i].getBerat()));
-                    }
-                    if (arrayNota[i].getHariTelat()>0){
-                        System.out.printf("Harga Akhir: %d Ada kompensasi keterlambatan %d * 2000 hari\n", arrayNota[i].getTotalHarga(), arrayNota[i].getHariTelat());
-                    }
-                    else{
-                        System.out.printf("Harga Akhir: %d\n", arrayNota[i].getTotalHarga());
-                    }
-
                 }
 
             }
 
         }
+        //logout
         else if (choice ==3){
             logout = true;
         }
@@ -132,6 +137,7 @@ public class MemberSystem extends SystemCLI {
     /**
      * Displays specific menu untuk Member biasa.
      */
+    //menu khusus untuk member
     @Override
     protected void displaySpecificMenu() {
         System.out.println("1. Saya ingin laundry");

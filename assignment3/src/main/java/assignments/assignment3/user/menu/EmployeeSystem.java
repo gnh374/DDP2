@@ -2,10 +2,6 @@ package assignments.assignment3.user.menu;
 
 import assignments.assignment3.nota.Nota;
 import assignments.assignment3.nota.NotaManager;
-import assignments.assignment3.nota.service.CuciService;
-import assignments.assignment3.nota.service.AntarService;
-import assignments.assignment3.nota.service.SetrikaService;
-import assignments.assignment3.nota.service.LaundryService;
 import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.Member;
 
@@ -34,17 +30,24 @@ public class EmployeeSystem extends SystemCLI {
     @Override
     protected boolean processChoice(int choice) {
         boolean logout = false;
+        //jika ingin mencuci
         if (choice == 1){
             System.out.printf("Stand back! %s beginning to nyuci!\n", loginMember.getNama());
+            //mengiterate semua nota yang ada dalam list nota
             for (Nota nota : NotaManager.notaList){
-                for (int i = 0 ; i <= nota.getServices().length; i++){
+                for (int i = 0 ; i < nota.getServices().length; i++){
+                    //jika nota sudah selesai
                     if (nota.isDone()){
                         System.out.printf("Nota %d : Sudah selesai.\n", nota.getId());
                         break;
                     }
+                    //jika belum selesai berarti ada service yg belum selesai
                     else if (!nota.getServices()[i].isDone()){
+                                //
                                 System.out.printf("Nota %d : %s\n", nota.getId(),nota.getServices()[i].doWork());
+                                //jika ini merupakan service terakhir
                                 if (i == nota.getServices().length-1){
+                                    //nota sudah selesai
                                     nota.setIsDone();
                                 }
                                 break;
@@ -52,12 +55,13 @@ public class EmployeeSystem extends SystemCLI {
                     }
             }
         }
+        //menampilkan list semua nota dan statusnya
         else if (choice ==2){
             for (Nota nota : NotaManager.notaList){
                 System.out.println(nota.getNotaStatus());
             }
         }
-
+        //logout
         else if (choice == 3){
             logout = true;
         }
@@ -67,6 +71,8 @@ public class EmployeeSystem extends SystemCLI {
     /**
      * Displays specific menu untuk Employee.
      */
+
+     //menu untuk employee
     @Override
     protected void displaySpecificMenu() {
         System.out.println("1. It's nyuci time");

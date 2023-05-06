@@ -21,6 +21,7 @@ public class LoginManager {
      * @param id -> ID dari user yang akan menggunakan SystemCLI
      * @return SystemCLI object yang sesuai dengan ID, null if  ID tidak ditemukan.
      */
+    //mengembalikan objek employee ataupun member jika sudah ada sebelumnya
     public SystemCLI getSystem(String id){
         if(memberSystem.isMemberExist(id)){
             return memberSystem;
@@ -40,13 +41,17 @@ public class LoginManager {
      * @return Member object yang berhasil mendaftar, return null jika gagal mendaftar.
      */
     public Member register(String nama, String noHp, String password) {
+        //membuat id untuk calon member
         String id = NotaGenerator.generateId(nama, noHp);
+        //memngebalikan sistem sesuai tipe objek
         SystemCLI sistem = getSystem(id);
+        //jika sistem = null berarti id belum ada dan bisa didaftarkan
         if (sistem == null){
             Member member = new Member(nama, id, password);
             memberSystem.addMember(member);
             return member;
         }
+        //jika id sudah ada tidak bisa daftar
         return null;
     }
 }

@@ -71,10 +71,12 @@ public class MainMenu {
         String password = in.nextLine();
 
         Member registeredMember = loginManager.register(nama, noHp, password);
+        //jika tidak bisa register karena id sudah ada
         if(registeredMember == null){
             System.out.printf("User dengan nama %s dan nomor hp %s sudah ada!\n", nama, noHp);
             return;
         }
+        //jika bisa register
         System.out.printf("Berhasil membuat user dengan ID %s!\n", registeredMember.getId());
     }
 
@@ -86,11 +88,14 @@ public class MainMenu {
         String inputId = in.nextLine();
         System.out.print("Masukan password Anda: ");
         String inputPassword = in.nextLine();
+        //menyimpan objek member atau employee yg idnya sesuai jika ada, jika tidak mengembalikan null
         SystemCLI systemCLI = loginManager.getSystem(inputId);
+        //jika id tidak ada
         if(systemCLI == null){
             System.out.println("ID atau password invalid.");
             return;
         }
+        //jika ada
         systemCLI.login(in, inputId, inputPassword);
     }
 
@@ -98,7 +103,7 @@ public class MainMenu {
      * Menampilkan menu
      */
     private void displayMenu() {
-        System.out.println("Selamat datang di CuciCuci System!");
+        System.out.println("\nSelamat datang di CuciCuci System!");
         System.out.printf("Sekarang tanggal %s\n", fmt.format(cal.getTime()));
         System.out.println("1. Login");
         System.out.println("2. Register Member");

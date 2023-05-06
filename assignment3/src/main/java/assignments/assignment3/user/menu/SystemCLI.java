@@ -17,16 +17,19 @@ public abstract class SystemCLI {
      * @param inputId -> ID user yang akan diautentikasi.
      * @param inputPassword -> password user yang akan diautentikasi.
      */
-    public void login(Scanner in, String inputId, String inputPassword){
-        Member authMember = authUser(inputId, inputPassword);
 
+    public void login(Scanner in, String inputId, String inputPassword){
+        //menyimpan member yg akan login jika berhasil
+        Member authMember = authUser(inputId, inputPassword);
+        //jika berhasil login
         if (authMember != null) {
             this.in = in;
             System.out.println("Login successful!");
+            //display menu dan jalanin sesuai pilihan
             run(in, authMember);
             return;
         }
-
+        //jika gagal login
         System.out.println("Invalid ID or password.");
     };
 
@@ -40,9 +43,11 @@ public abstract class SystemCLI {
         loginMember = member;
         boolean logout = false;
         while (!logout) {
+            //menampilkan menu sesuai tipe objek
             displayMenu();
             int choice = in.nextInt();
             in.nextLine();
+            //menjalankan sesuai pilihan
             logout = processChoice(choice);
         }
         loginMember = null;
@@ -75,6 +80,7 @@ public abstract class SystemCLI {
      * @param id -> ID yang akan diperiksa.
      * @return true jika ada member dengan ID yang diberikan, false jika tidak.
      */
+    //mengecek apakah member ada di list atau tidak
     public boolean isMemberExist(String id){
         for (Member member:
                 memberList) {
