@@ -56,7 +56,7 @@ public class Nota {
 
     public void hitungKompensasi(){
         //jika total harga > 0 kurangi 2000 setiap telat
-        if (this.totalHarga >= 0){
+        if (this.totalHarga > 0){
             this.totalHarga -= 2000;
             //gaboleh negatif
             if (this.totalHarga < 0){
