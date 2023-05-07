@@ -27,7 +27,7 @@ public class Nota {
         this.tanggalMasuk = tanggal;
         this.id = totalNota++;
         //mengakses method jumlahHariPengerjaan
-        this.sisaHariPengerjaan = NotaGenerator.jumlahHariPengerjaan(this.paket);
+        this.sisaHariPengerjaan = NotaGenerator.jumlahHariPengerjaan(this.paket.toLowerCase());
         this.isDone = false;
         CuciService cuci = new CuciService();
         //default setiap melaundry akan mengambil service cuci
@@ -63,7 +63,7 @@ public class Nota {
     }
     //menghitung harga beserta service
     public long calculateHarga(){
-        this.totalHarga += NotaGenerator.hitungHarga(this.paket, this.berat);
+        this.totalHarga += NotaGenerator.hitungHarga(this.paket.toLowerCase(), this.berat);
         for (LaundryService service : this.services){
             this.totalHarga += service.getHarga(berat);
         }

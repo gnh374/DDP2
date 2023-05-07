@@ -23,7 +23,7 @@ public class Nota {
         this.tanggalMasuk = tanggalMasuk;
         this.idNota = idNota;
         //mengakses method jumlahHariPengerjaan
-        this.sisaHariPengerjaan = NotaGenerator.jumlahHariPengerjaan(this.paket);
+        this.sisaHariPengerjaan = NotaGenerator.jumlahHariPengerjaan(this.paket.toLowerCase());
         this.isReady = false;
     }
     
