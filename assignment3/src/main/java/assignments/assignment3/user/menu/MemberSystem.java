@@ -91,7 +91,7 @@ public class MemberSystem extends SystemCLI {
             System.out.print("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\nHanya tambah 1000 / kg\n[Ketik x untuk tidak mau]: ");
             String mauSetrika = in.nextLine();
             //jika ingin disterika
-            if (!mauSetrika.equals("x")){
+            if (!mauSetrika.toLowerCase().equals("x")){
                 //membuat objek service setrika
                 SetrikaService setrika = new SetrikaService();
                 //menambahkan ke list service
@@ -100,7 +100,7 @@ public class MemberSystem extends SystemCLI {
             System.out.print("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\nCuma 2000 / 4kg, kemudian 500 / kg\n[Ketik x untuk tidak mau]: ");
             String mauAntar = in.nextLine();
             //jika mau diantar
-            if (!mauAntar.equals("x")){
+            if (!mauAntar.toLowerCase().equals("x")){
                 //membuat objek service antar
                 AntarService antar = new AntarService();
                 //menambahkan ke list service

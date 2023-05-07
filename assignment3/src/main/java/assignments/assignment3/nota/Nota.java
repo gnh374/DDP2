@@ -94,7 +94,7 @@ public class Nota {
             nota+=String.format("Harga Akhir: %d Ada kompensasi keterlambatan %d * 2000 hari\n", this.getTotalHarga(), this.getHariTelat());
         }
         else{
-            nota+=String.format("Harga Akhir: %d\n\n", this.getTotalHarga());
+            nota+=String.format("Harga Akhir: %d\n", this.getTotalHarga());
         }
         return nota;
 
