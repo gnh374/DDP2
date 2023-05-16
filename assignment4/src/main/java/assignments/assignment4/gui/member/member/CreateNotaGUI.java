@@ -30,6 +30,7 @@ public class CreateNotaGUI extends JPanel {
     private final MemberSystemGUI memberSystemGUI;
 
     public CreateNotaGUI(MemberSystemGUI memberSystemGUI) {
+        setLayout(new BorderLayout());
         this.memberSystemGUI = memberSystemGUI;
         this.fmt = NotaManager.fmt;
         this.cal = NotaManager.cal;
@@ -44,6 +45,52 @@ public class CreateNotaGUI extends JPanel {
      * Be creative and have fun!
      * */
     private void initGUI() {
+        JPanel pilihan = new JPanel(new GridLayout(2, 3));
+        paketLabel = new JLabel("Paket Laundry: ");
+        pilihan.add( paketLabel);
+        String [] paket = {"Express", "Fast", "Reguler"};
+        paketComboBox = new JComboBox<>(paket);
+        paketComboBox.setSelectedIndex(0);
+        pilihan.add(paketComboBox);
+        showPaketButton = new JButton("Show Paket");
+        showPaketButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                showPaket();
+            }
+            
+        }
+        );
+        pilihan.add(showPaketButton);
+        beratLabel = new JLabel("Berat cucian (Kg): ");
+        pilihan.add(beratLabel);
+        beratTextField = new JTextField();
+        pilihan.add(beratTextField);
+        add(pilihan, BorderLayout.NORTH);
+
+        JPanel checkBox= new JPanel(new GridLayout(2, 1));
+        setrikaCheckBox = new JCheckBox("Tambah Setrika Service (1000/kg)");
+        checkBox.add(setrikaCheckBox);
+        antarCheckBox = new JCheckBox("Tambah Antar Service (2000 /4kg pertama, kemudian 500/kg)");
+        checkBox.add(antarCheckBox);
+        add(checkBox, BorderLayout.CENTER);
+
+
+        JPanel button = new JPanel(new GridLayout(2, 1));
+        createNotaButton = new JButton("Buat Nota");
+        createNotaButton.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e){
+                createNota();
+            }
+        });
+        button.add(createNotaButton);
+        backButton = new JButton("Kembali");
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e){
+                handleBack();
+            }
+        });
+        button.add(backButton);
+        add(button, BorderLayout.SOUTH);
         // TODO
     }
 
@@ -72,6 +119,51 @@ public class CreateNotaGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "createNotaButton"
      * */
     private void createNota() {
+        String paket = (String)paketComboBox.getSelectedItem();
+        int berat;
+        boolean beratKurang = false;
+        try {
+            berat = Integer.parseInt(beratTextField.getText());
+            
+            if (berat<0){
+                throw new NumberFormatException();
+            }
+            if (berat <2){
+                beratKurang = true;
+                berat = 2;
+            }
+            String tanggal = this.fmt.format(this.cal.getTime());
+            Nota nota = new Nota(memberSystemGUI.getLoggedInMember(), berat, paket,tanggal );
+            if (setrikaCheckBox.isSelected()){
+                SetrikaService setrika = new SetrikaService();
+                //menambahkan ke list service
+                nota.addService(setrika);
+            }
+            if (antarCheckBox.isSelected()){
+                //membuat objek service antar
+                AntarService antar = new AntarService();
+                //menambahkan ke list service
+                nota.addService(antar);
+            }
+                NotaManager.addNota(nota);
+                memberSystemGUI.getLoggedInMember().addNota(nota);
+                nota.calculateHarga();
+                if (beratKurang){
+                    JOptionPane.showMessageDialog(this, "Cucian kurang dari 2kg. Maka akan dianggap sebagai 2 kg.", "Paket Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+                JOptionPane.showMessageDialog(this, "Nota berhasil dibuat", "Paket Information", JOptionPane.INFORMATION_MESSAGE);
+                paketComboBox.setSelectedIndex(0);
+                beratTextField.setText("");
+                setrikaCheckBox.setSelected(false);
+                antarCheckBox.setSelected(false);
+        }
+        
+        catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Berat harus berupa angka", "Paket Information", JOptionPane.ERROR_MESSAGE);
+            beratTextField.setText("");
+        }
+        
+
         // TODO
     }
 
@@ -80,6 +172,11 @@ public class CreateNotaGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
+        paketComboBox.setSelectedIndex(0);
+        beratTextField.setText("");
+        setrikaCheckBox.setSelected(false);
+        antarCheckBox.setSelected(false);
+        MainFrame.getInstance().navigateTo("MEMBER");
         // TODO
     }
 }

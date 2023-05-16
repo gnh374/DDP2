@@ -15,6 +15,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
 
     public MemberSystemGUI(SystemCLI systemCLI) {
         super(systemCLI);
+       
     }
 
     @Override
@@ -35,7 +36,9 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     @Override
     protected JButton[] createButtons() {
         // TODO
-        return new JButton[]{
+        JButton laundry = new JButton("Saya ingin laundry");
+        JButton detailNota= new JButton("Lihat Detail Nota saya");
+        return new JButton[]{laundry, detailNota
         };
     }
 
@@ -59,6 +62,26 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     private void showDetailNota() {
         // TODO
+        String printNota = "";
+        if ( loggedInMember.getNotaList().length==0){
+            printNota = "Belum pernah Laundry di cucicuci nih :()";
+            JTextArea textArea = new JTextArea(printNota);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new java.awt.Dimension(300, 200));
+            JOptionPane.showMessageDialog(null, scrollPane,"Information", JOptionPane.INFORMATION_MESSAGE);
+            
+        }
+        else{
+            for (Nota nota : loggedInMember.getNotaList()){
+                printNota+=nota+"\n";
+    
+            }
+            JTextArea textArea = new JTextArea(printNota);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new java.awt.Dimension(300, 200));
+            JOptionPane.showMessageDialog(null, scrollPane,"Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
     }
 
     /**
@@ -66,6 +89,8 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void createNota() {
+        MainFrame.getInstance().navigateTo("CREATE_NOTA");
+        
         // TODO
     }
 

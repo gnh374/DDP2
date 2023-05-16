@@ -1,8 +1,12 @@
 package assignments.assignment4.gui.member;
 
+import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.Member;
+import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.SystemCLI;
+import assignments.assignment3.LoginManager;
 import assignments.assignment4.MainFrame;
+import assignments.assignment4.gui.member.employee.EmployeeSystemGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,6 +93,17 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
      * */
     public boolean login(String id, String password) {
         // TODO
+        //menyimpan member yg akan login jika berhasil
+        Member authMember = systemCLI.authUser(id,  password);
+        //jika berhasil login
+        if ((getPageName() == "EMPLOYEE" && authMember instanceof Employee) || (getPageName() == "MEMBER" && authMember instanceof Member) ){
+            loggedInMember = authMember;
+            welcomeLabel.setText(String.format("Welcome %s", loggedInMember.getNama()));
+             // Set up footer
+             loggedInAsLabel.setText(String.format("Logged in as %s", loggedInMember.getId()));
+            return true;
+        }
+       
         return false;
     }
 
@@ -96,10 +111,12 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
      * Method untuk logout pada panel ini.
      * Akan mengubah loggedInMemberMenjadi null.
      * */
+    
     public void logout() {
         loggedInMember = null;
     }
 
+   
     /**
      * Method ini mensupply buttons apa saja yang akan dimuat oleh panel ini.
      * Button yang disediakan method ini BELUM memiliki ActionListener.

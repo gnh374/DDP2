@@ -31,7 +31,11 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     @Override
     protected JButton[] createButtons() {
         // TODO
-        return new JButton[]{
+        JButton nyuci = new JButton("It's Nyuci time");
+        JButton displayNota= new JButton("Display Nota");
+      
+        
+        return new JButton[]{ nyuci, displayNota
         };
     }
 
@@ -54,6 +58,17 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void displayNota() {
+        String print = "";
+        if (NotaManager.notaList.length ==0){
+            JOptionPane.showMessageDialog(null,"Nota belum ada", "Information", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            for (Nota nota : NotaManager.notaList){
+                print+=(nota.getNotaStatus()+"\n");
+            }
+            JOptionPane.showMessageDialog(null,print, "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
         // TODO
     }
 
@@ -62,6 +77,35 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void cuci() {
+        JOptionPane.showMessageDialog(null, String.format("Stand back! %s beginning to nyuci!\n", loggedInMember.getNama()), "Information", JOptionPane.INFORMATION_MESSAGE);
+        String notaPrint = "";
+        if (NotaManager.notaList.length ==0){
+            JOptionPane.showMessageDialog(null,"Nothing to cuci here", "Information", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            for (Nota nota : NotaManager.notaList){
+                for (int i = 0 ; i < nota.getServices().length; i++){
+                    //jika nota sudah selesai
+                    if (nota.isDone()){
+                        notaPrint+= String.format("Nota %d : Sudah selesai.\n", nota.getId())+"\n";
+                        break;
+                    }
+                    //jika belum selesai berarti ada service yg belum selesai
+                    else if (!nota.getServices()[i].isDone()){
+                                //
+                                notaPrint+=String.format("Nota %d : %s\n", nota.getId(),nota.getServices()[i].doWork())+"\n";
+                                //jika ini merupakan service terakhir
+                                if (i == nota.getServices().length-1){
+                                    //nota sudah selesai
+                                    nota.setIsDone();
+                                }
+                                break;
+                            }
+                    }
+            }
+            JOptionPane.showMessageDialog(null,notaPrint, "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
         // TODO
     }
 }

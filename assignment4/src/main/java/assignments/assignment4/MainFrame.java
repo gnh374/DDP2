@@ -3,9 +3,11 @@ import assignments.assignment3.LoginManager;
 import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
+import assignments.assignment3.user.menu.SystemCLI;
 import assignments.assignment4.gui.HomeGUI;
 import assignments.assignment4.gui.LoginGUI;
 import assignments.assignment4.gui.RegisterGUI;
+import assignments.assignment4.gui.member.AbstractMemberGUI;
 import assignments.assignment4.gui.member.Loginable;
 import assignments.assignment4.gui.member.employee.EmployeeSystemGUI;
 import assignments.assignment4.gui.member.member.CreateNotaGUI;
@@ -83,6 +85,7 @@ public class MainFrame extends JFrame{
      * @param page -> key dari halaman yang diinginkan.
      * */
     public void navigateTo(String page){
+        cards.show(mainPanel, page);
         // TODO
     }
 
@@ -96,12 +99,24 @@ public class MainFrame extends JFrame{
      * @param password -> password dari pengguna
      * @return boolean yang menandakan apakah login berhasil atau gagal.
      * */
-    public boolean login(String id, String password){
+    public void login(String id, String password){
+        //TODO
+    
+        boolean bisaLogin = false;
         for (Loginable panel:
                 loginablePanel) {
-            // TODO
+                if (panel.login(id, password)){
+                    bisaLogin = true;
+                    navigateTo(panel.getPageName());
+                    loginGUI.reset();
+                    break;
+                };
         }
-        return false;
+        if (!bisaLogin){
+            JOptionPane.showMessageDialog(null,"ID or password invalid", "Information", JOptionPane.ERROR_MESSAGE);
+            loginGUI.reset();
+        }
+       
     }
 
 
