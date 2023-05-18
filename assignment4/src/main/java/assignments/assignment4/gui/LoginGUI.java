@@ -42,6 +42,7 @@ public class LoginGUI extends JPanel {
      * Be creative and have fun!
      * */
     private void initGUI() {
+        //set up layout
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.weightx = 1.0;
         constraints.weighty = 0.5;
@@ -62,6 +63,7 @@ public class LoginGUI extends JPanel {
         mainPanel.add(passwordField, constraints);
         loginButton = new JButton("Login");
         constraints.gridy = 4;
+        //jika login button di click akan menjalankan method handleLogin()
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e){
                 handleLogin();
@@ -70,6 +72,7 @@ public class LoginGUI extends JPanel {
         mainPanel.add(loginButton, constraints);
         backButton = new JButton("Kembali");
         constraints.gridy = 5;
+        //jika Kembali button di click akan menjalankan method handleBack()
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e){
                 handleBack();
@@ -82,6 +85,7 @@ public class LoginGUI extends JPanel {
      * Method untuk kembali ke halaman home.
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
+    // kembali ke home dan set kembali kosong semua
     private void handleBack() {
         MainFrame layarUtama = MainFrame.getInstance();
         idTextField.setText("");
@@ -89,16 +93,19 @@ public class LoginGUI extends JPanel {
         layarUtama.navigateTo(HomeGUI.KEY);
     }
 
-    /**
-     * Method untuk login pada sistem.
-     * Akan dipanggil jika pengguna menekan "loginButton"
-     * */
+   
+    //set semua input jadi kosong semua
     public void reset(){
         idTextField.setText("");
         passwordField.setText("");
     }
+     /**
+     * Method untuk login pada sistem.
+     * Akan dipanggil jika pengguna menekan "loginButton"
+     * */
     private void handleLogin() {
         MainFrame layarUtama = MainFrame.getInstance();
+        //cek apakah idnya ada baik sebagai member maupun employee
         SystemCLI systemCLI = loginManager.getSystem(idTextField.getText());
         //jika id tidak ada
         if(systemCLI == null){
@@ -106,6 +113,7 @@ public class LoginGUI extends JPanel {
             idTextField.setText("");
             passwordField.setText("");
         }
+        //jika ada ke method login di mainFrame
         else{
             layarUtama.login(idTextField.getText(), String.valueOf(passwordField.getPassword()));
     

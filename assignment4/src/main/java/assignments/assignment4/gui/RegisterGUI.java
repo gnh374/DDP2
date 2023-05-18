@@ -23,10 +23,10 @@ public class RegisterGUI extends JPanel {
     private JButton backButton;
 
     public RegisterGUI(LoginManager loginManager) {
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Setup layout
         this.loginManager = loginManager;
 
-        // Set up main panel, Feel free to make any changes
+        // Set up main panel
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -41,6 +41,7 @@ public class RegisterGUI extends JPanel {
      * Be creative and have fun!
      * */
     private void initGUI() {
+        //set up layout
         nameLabel = new JLabel("Masukkan nama Anda: ");
         nameTextField = new JTextField();
         nameTextField.setPreferredSize(new Dimension(500, 15));
@@ -90,6 +91,7 @@ public class RegisterGUI extends JPanel {
 
         registerButton = new JButton("Register");
         c6.gridy=6;
+        //jika register button di klik jalankan method handleRegister()
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e){
                 handleRegister();
@@ -99,6 +101,7 @@ public class RegisterGUI extends JPanel {
 
         backButton = new JButton("Kembali");
         c6.gridy=7;
+        //jika kembali button di klik jalankan method handleBack()
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e){
                 handleBack();
@@ -114,7 +117,7 @@ public class RegisterGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
-        //TODO
+        //kembali ke home dan settingan dikembalikan ke kosong semua
         MainFrame mainFrame = MainFrame.getInstance();
         phoneTextField.setText("");
         nameTextField.setText("");
@@ -127,11 +130,12 @@ public class RegisterGUI extends JPanel {
     * Akan dipanggil jika pengguna menekan "registerButton"
     * */
     private void handleRegister() {
-        // TODO
         String nama = nameTextField.getText();
         String noHp = phoneTextField.getText();
         char[] pw = passwordField.getPassword();
+        //ubah ke string
         String password = new String(pw);
+        //validasi ga boleh ada yg kosong
         if (nama.equals("") | noHp.equals("") |password.equals("")){
             JOptionPane.showMessageDialog(null,"Semua field di atas wajib diisi", "Information", JOptionPane.ERROR_MESSAGE);
             
@@ -145,16 +149,20 @@ public class RegisterGUI extends JPanel {
                         break;
                     }
                 }
+                //pemberitahuan nomot tidak valid dan kosongkan field
                 if (!nomorValid){
                     JOptionPane.showMessageDialog(null,"Nomor Handphone harus berisi angka","information" ,JOptionPane.ERROR_MESSAGE);
                     phoneTextField.setText("");
                 }
+                //jika nomor sudah valid
                 else{
                     Member registeredMember = loginManager.register(nama, noHp, password);
                     //jika tidak bisa register karena id sudah ada
                     if(registeredMember == null){
                         JOptionPane.showMessageDialog(null, String.format("User dengan nama %s dan nomor hp %s sudah ada!",nama, noHp), "Information", JOptionPane.ERROR_MESSAGE);
+                        //kembali ke home
                         handleBack();
+                        //kosongkan semua field
                         nameTextField.setText("");
                         passwordField.setText("");
                         phoneTextField.setText("");
@@ -162,7 +170,9 @@ public class RegisterGUI extends JPanel {
                     //jika bisa register
                     else{
                         JOptionPane.showMessageDialog(null, String.format("Berhasil membuat user dengan ID %s!", registeredMember.getId()), "Information", JOptionPane.INFORMATION_MESSAGE);
+                        //kembali ke home
                         handleBack();
+                        //kosongkan semua field
                         nameTextField.setText("");
                         passwordField.setText("");
                         phoneTextField.setText("");

@@ -35,7 +35,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     @Override
     protected JButton[] createButtons() {
-        // TODO
+        // membuat button yg dibutuhkan pada member page
         JButton laundry = new JButton("Saya ingin laundry");
         JButton detailNota= new JButton("Lihat Detail Nota saya");
         return new JButton[]{laundry, detailNota
@@ -61,17 +61,22 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void showDetailNota() {
-        // TODO
         String printNota = "";
+        //jika loggedin member belum membuat nota
         if ( loggedInMember.getNotaList().length==0){
             printNota = "Belum pernah Laundry di cucicuci nih :()";
+            //jtext area dan scrollpane agar bisa discroll
             JTextArea textArea = new JTextArea(printNota);
             JScrollPane scrollPane = new JScrollPane(textArea);
+            //size
             scrollPane.setPreferredSize(new java.awt.Dimension(300, 200));
+            //dialog box belum pernah laundry
             JOptionPane.showMessageDialog(null, scrollPane,"Information", JOptionPane.INFORMATION_MESSAGE);
             
         }
+        //jika sudah ada nota
         else{
+            //masukkan info nota ke string
             for (Nota nota : loggedInMember.getNotaList()){
                 printNota+=nota+"\n";
     
@@ -79,6 +84,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
             JTextArea textArea = new JTextArea(printNota);
             JScrollPane scrollPane = new JScrollPane(textArea);
             scrollPane.setPreferredSize(new java.awt.Dimension(300, 200));
+            //dialog box isi nota
             JOptionPane.showMessageDialog(null, scrollPane,"Information", JOptionPane.INFORMATION_MESSAGE);
         }
         
@@ -91,7 +97,6 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     private void createNota() {
         MainFrame.getInstance().navigateTo("CREATE_NOTA");
         
-        // TODO
     }
 
 }

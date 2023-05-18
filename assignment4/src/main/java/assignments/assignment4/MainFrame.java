@@ -91,8 +91,6 @@ public class MainFrame extends JFrame{
 
     /**
      * Method untuk login pada sistem.
-     * Jika gagal login akan mengembalikan boolean false dan jika berhasil login: <p>
-     * - return boolean true <p>
      * - menampilkan halaman yang sesuai <p>
      *
      * @param id -> ID dari pengguna
@@ -100,18 +98,20 @@ public class MainFrame extends JFrame{
      * @return boolean yang menandakan apakah login berhasil atau gagal.
      * */
     public void login(String id, String password){
-        //TODO
-    
         boolean bisaLogin = false;
+        //itterate loginpanel yg mungkin
         for (Loginable panel:
                 loginablePanel) {
+                    //jika bisa login sesuai panel navigate ke panel yg sesuai
                 if (panel.login(id, password)){
                     bisaLogin = true;
                     navigateTo(panel.getPageName());
+                    //reset semua input pada login page
                     loginGUI.reset();
                     break;
                 };
         }
+        //jika tidak bisa login
         if (!bisaLogin){
             JOptionPane.showMessageDialog(null,"ID or password invalid", "Information", JOptionPane.ERROR_MESSAGE);
             loginGUI.reset();
